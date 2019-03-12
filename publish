@@ -38,11 +38,12 @@ function publish() {
     mv node_modules ../public
     mv package.json ../public
     # 发布
-    git co gh-pages
+    git co gh-pages 2>/dev/null
     v=`git lg -1|sed 's/.*发布//'|sed 's/版本.*//'|sed 's/\.//g'`
     t=`echo $v|grep '^\d\{3\}$'`
     if [ "$t" = "" ];then
         v="99"
+        git co -b gh-pages
     fi
     let v=v+1
     v="发布${v:0:1}.${v:1:1}.${v:2:1}版本"
