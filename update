@@ -1,16 +1,22 @@
 #!/bin/bash
 
-function check() {
+function showHelp() {
+    echo "Usage:"
+    echo "      ./update -h|--help"
+    echo "      ./update [home|photo|blog]: 为空则更新所有工程，否则更新指定工程"
+    exit
+}
+
+function updateProject() {
+    pushd $1
     info=`git st|grep "nothing to commit"`
     if [ "$info" = "" ];then
         echo "请先处理修改后再更新"
         exit
     fi
-}
-
-function update() {
     git pl
-    mv website/node_modules ../.__node_modules
+    mv node_modules ../public/node_modules
+    mv package.json ../public/package.json
     info=`git br|grep "gh-pages"`
     if [ "$info" = "" ];then
         git copage
@@ -19,8 +25,23 @@ function update() {
         git plpage
     fi
     git co master
-    mv ../.__node_modules website/node_modules
+    popd
 }
 
-check
-update
+function update() {
+    if [ "$1" = "" ];then
+        updateProject home
+        updateProject photo
+        updateProject blog
+    else
+        updateProject "$1"
+    fi
+}
+
+if [ "$1" = "-h" -o "$1" = "--help" ];then
+    showHelp
+elif [ "$1" = "" -o "$1" = "home" -o "$1" = "photo" -o "$1" = "blog" ];then
+    update "$1"
+else
+    showHelp
+fi
