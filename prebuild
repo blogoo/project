@@ -1,0 +1,32 @@
+#!/bin/bash
+
+function showHelp() {
+    echo "Usage:"
+    echo "      ./prebuild -h|--help"
+    echo "      ./prebuild [home|photo|blog]: 为空则恢复到public，否则移动到指定工程"
+    exit
+}
+
+function prebuild() {
+    projects=(home photo blog)
+    for project in "${projects[@]}";do
+        if [ -a "${project}/node_modules" ];then
+            mv ${project}/node_modules public
+        fi
+        if [ -a "${project}/package.json" ];then
+            mv ${project}/package.json public
+        fi
+    done
+    if [ "$1" != "" ];then
+        mv public/node_modules $1
+        mv public/package.json $1
+    fi
+}
+
+if [ "$1" = "-h" -o "$1" = "--help" ];then
+    showHelp
+elif [ "$1" = "" -o "$1" = "home" -o "$1" = "photo" -o "$1" = "blog" ];then
+    prebuild "$1"
+else
+    showHelp
+fi
