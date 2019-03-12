@@ -15,8 +15,8 @@ function updateProject() {
         exit
     fi
     git pl
-    mv node_modules ../public/node_modules
-    mv package.json ../public/package.json
+    mv node_modules ../public 2>/dev/null
+    mv package.json ../public 2>/dev/null
     info=`git br|grep "gh-pages"`
     if [ "$info" = "" ];then
         git copage
