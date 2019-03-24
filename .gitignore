@@ -11,5 +11,6 @@ package-lock.json
 node_modules
 build
 /home
+/personal
 /blog
 /photo
