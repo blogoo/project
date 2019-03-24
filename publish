@@ -50,7 +50,7 @@ function publish() {
     rm -fr *
     mv ../public/build/$1/* .
     git add .
-    git ci -m "$v"
+    git ci "$v"
     git pupage
     git co master
     rm -fr ../public/build
