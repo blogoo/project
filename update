@@ -3,7 +3,7 @@
 function showHelp() {
     echo "Usage:"
     echo "      ./update -h|--help"
-    echo "      ./update [home|photo|blog]: 为空则更新所有工程，否则更新指定工程"
+    echo "      ./update [home|personal|photo|blog]: 为空则更新所有工程，否则更新指定工程"
     exit
 }
 
@@ -31,6 +31,7 @@ function updateProject() {
 function update() {
     if [ "$1" = "" ];then
         updateProject home
+        updateProject personal
         updateProject photo
         updateProject blog
     else
@@ -40,7 +41,7 @@ function update() {
 
 if [ "$1" = "-h" -o "$1" = "--help" ];then
     showHelp
-elif [ "$1" = "" -o "$1" = "home" -o "$1" = "photo" -o "$1" = "blog" ];then
+elif [ "$1" = "" -o "$1" = "home" -o "$1" = "personal" -o "$1" = "photo" -o "$1" = "blog" ];then
     update "$1"
 else
     showHelp

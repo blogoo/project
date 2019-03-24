@@ -3,7 +3,7 @@
 function showHelp() {
     echo "Usage:"
     echo "      ./public -h|--help"
-    echo "      ./public [home|photo|blog]: 发布指定工程"
+    echo "      ./public [home|personal|photo|blog]: 发布指定工程"
     exit
 }
 
@@ -59,7 +59,7 @@ function publish() {
 
 if [ "$1" = "-h" -o "$1" = "--help" ];then
     showHelp
-elif [ "$1" = "home" -o "$1" = "photo" -o "$1" = "blog" ];then
+elif [ "$1" = "home" -o "$1" = "personal" -o "$1" = "photo" -o "$1" = "blog" ];then
     publish "$1"
 else
     showHelp
