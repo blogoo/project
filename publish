@@ -2,8 +2,8 @@
 
 function showHelp() {
     echo "Usage:"
-    echo "      ./public -h|--help"
-    echo "      ./public [home|personal|photo|blog]: 发布指定工程"
+    echo "      ./shared -h|--help"
+    echo "      ./shared [home|personal|photo|blog]: 发布指定工程"
     exit
 }
 
@@ -16,8 +16,8 @@ function publish() {
     fi
     # 先更新
     git pl
-    mv node_modules ../public 2>/dev/null
-    mv package.json ../public 2>/dev/null
+    mv node_modules ../shared 2>/dev/null
+    mv package.json ../shared 2>/dev/null
     info=`git br|grep "gh-pages"`
     if [ "$info" = "" ];then
         git copage
@@ -27,16 +27,16 @@ function publish() {
     fi
     git co master
     # 打包
-    mv ../public/node_modules .
-    mv ../public/package.json .
-    rm -fr ../public/build
+    mv ../shared/node_modules .
+    mv ../shared/package.json .
+    rm -fr ../shared/build
     npm run build
     if [ $? -ne 0 ]; then
         exit
     fi
-    mv build ../public
-    mv node_modules ../public
-    mv package.json ../public
+    mv build ../shared
+    mv node_modules ../shared
+    mv package.json ../shared
     # 发布
     git co gh-pages 2>/dev/null
     v=`git lg -1|sed 's/.*发布//'|sed 's/版本.*//'|sed 's/\.//g'`
@@ -48,12 +48,12 @@ function publish() {
     let v=v+1
     v="发布${v:0:1}.${v:1:1}.${v:2:1}版本"
     rm -fr *
-    mv ../public/build/$1/* .
+    mv ../shared/build/$1/* .
     git add .
     git ci "$v"
     git pupage
     git co master
-    rm -fr ../public/build
+    rm -fr ../shared/build
     popd
 }
 
