@@ -16,6 +16,10 @@ function publish() {
     fi
     # 先更新
     git pl
+    if [ "$1" = "photo" ];then
+        mv static/photo ../.__tmp_dir
+        mv tools/dist static/photo
+    fi
     mv node_modules ../shared 2>/dev/null
     mv package.json ../shared 2>/dev/null
     info=`git br|grep "gh-pages"`

@@ -1,0 +1,21 @@
+#!/usr/bin/env node
+
+const fs = require('fs-extra');
+const path = require('path');
+const moment = require('moment');
+const args = process.argv.slice(2);
+const srcDir = `/Users/whxx/test/data/Camera/img/${args[0]}`;
+const distDir = '/Users/whxx/test/data/Camera/img/dist';
+
+
+fs.emptyDirSync(distDir);
+fs.readdirSync(srcDir).forEach(file=>{
+    const list = file.split('_');
+    if (list[0] === 'IMG' && list[1].length === 8) {
+        const date = moment(list[1], 'YYYYMMDD');
+        const distPath = `${distDir}/${date.format('YYYY')}/${date.format('YYYY-MM-DD')}`;
+        console.log("copy", file);
+        fs.ensureDirSync(distPath);
+        fs.copySync(`${srcDir}/${file}`, `${distPath}/${file}`);
+    }
+});
