@@ -17,19 +17,9 @@ function publish() {
     # 先更新
     git pl
     if [ "$1" = "photo" ];then
-        mv static/photo ../.__tmp_dir
-        mv tools/dist static/photo
+        mv static/photo ../tools/photo
+        mv ../tools/dist static/photo
     fi
-    mv node_modules ../shared 2>/dev/null
-    mv package.json ../shared 2>/dev/null
-    info=`git br|grep "gh-pages"`
-    if [ "$info" = "" ];then
-        git copage
-    else
-        git co gh-pages
-        git plpage
-    fi
-    git co master
     # 打包
     mv ../shared/node_modules .
     mv ../shared/package.json .
@@ -38,11 +28,21 @@ function publish() {
     if [ $? -ne 0 ]; then
         exit
     fi
+    if [ "$1" = "photo" ];then
+        mv static/photo ../tools/dist
+        mv ../tools/photo static/photo
+    fi
     mv build ../shared
     mv node_modules ../shared
     mv package.json ../shared
     # 发布
-    git co gh-pages 2>/dev/null
+    info=`git br|grep "gh-pages"`
+    if [ "$info" = "" ];then
+        git copage
+    else
+        git co gh-pages
+        git plpage
+    fi
     v=`git lg -1|sed 's/.*发布//'|sed 's/版本.*//'|sed 's/\.//g'`
     t=`echo $v|grep '^\d\{3\}$'`
     if [ "$t" = "" ];then
@@ -51,6 +51,7 @@ function publish() {
     fi
     let v=v+1
     v="发布${v:0:1}.${v:1:1}.${v:2:1}版本"
+    echo $v
     rm -fr *
     mv ../shared/build/$1/* .
     git add .
@@ -63,7 +64,7 @@ function publish() {
 
 if [ "$1" = "-h" -o "$1" = "--help" ];then
     showHelp
-elif [ "$1" = "home" -o "$1" = "personal" -o "$1" = "photo" -o "$1" = "blog" ];then
+elif [ "$1" = "home" -o "$1" = "xx" -o "$1" = "photo" -o "$1" = "blog" ];then
     publish "$1"
 else
     showHelp
