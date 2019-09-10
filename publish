@@ -25,12 +25,13 @@ function publish() {
     mv ../shared/package.json .
     rm -fr ../shared/build
     npm run build
-    if [ $? -ne 0 ]; then
-        exit
-    fi
+    ret=$?
     if [ "$1" = "photo" ];then
         mv static/photo ../tools/dist
         mv ../tools/photo static/photo
+    fi
+    if [ $ret -ne 0 ]; then
+        exit
     fi
     mv build ../shared
     mv node_modules ../shared
