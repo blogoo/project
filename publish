@@ -43,6 +43,7 @@ function publish() {
         git co gh-pages
         git plpage
     fi
+    git lg
     v=`git lg -1|sed 's/.*发布//'|sed 's/版本.*//'|sed 's/\.//g'`
     t=`echo $v|grep '^\d\{3\}$'`
     if [ "$t" = "" ];then
