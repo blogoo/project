@@ -5,8 +5,8 @@ const path = require('path');
 const moment = require('moment');
 const sharp = require('sharp');
 const args = process.argv.slice(2);
+const distDir = path.resolve(__dirname, '..', '..', 'baidu/photo');
 const srcDir = path.resolve(__dirname, '..', 'photo/static/photo');
-const distDir = path.resolve(__dirname, 'dist');
 
 
 function sharpImage(srcName, destName) {
@@ -31,10 +31,12 @@ async function genThumb(dir) {
             await genThumb(fullname);
         } else {
             const destName = path.join(distDir, fullname);
-            if (!fs.existsSync(destName)||1) {
-                console.log('finish:', fullname);
+            if (!fs.existsSync(destName)) {
+                console.log('==== finish:', fullname);
                 fs.ensureFileSync(destName);
                 await sharpImage(srcName, destName);
+            } else {
+                console.log('**** skip:', fullname);
             }
         }
     }
