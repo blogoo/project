@@ -2,8 +2,8 @@
 
 function showHelp() {
     echo "Usage:"
-    echo "      ./shared -h|--help"
-    echo "      ./shared [home|personal|photo|blog]: 发布指定工程"
+    echo "      ./publish -h|--help"
+    echo "      ./publish [home|personal|photo|blog]: 发布指定工程"
     exit
 }
 
