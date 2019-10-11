@@ -16,20 +16,12 @@ function publish() {
     fi
     # 先更新
     git pl
-    if [ "$1" = "photo" ];then
-        mv static/photo ../tools/photo
-        mv ../tools/dist static/photo
-    fi
     # 打包
     mv ../shared/node_modules .
     mv ../shared/package.json .
     rm -fr ../shared/build
     npm run build
     ret=$?
-    if [ "$1" = "photo" ];then
-        mv static/photo ../tools/dist
-        mv ../tools/photo static/photo
-    fi
     if [ $ret -ne 0 ]; then
         exit
     fi
@@ -67,7 +59,7 @@ function publish() {
 
 if [ "$1" = "-h" -o "$1" = "--help" ];then
     showHelp
-elif [ "$1" = "home" -o "$1" = "xx" -o "$1" = "photo" -o "$1" = "blog" ];then
+elif [ "$1" = "home" -o "$1" = "personal" -o "$1" = "photo" -o "$1" = "blog" ];then
     publish "$1"
 else
     showHelp
