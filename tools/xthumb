@@ -5,8 +5,8 @@ const path = require('path');
 const moment = require('moment');
 const sharp = require('sharp');
 const args = process.argv.slice(2);
-const distDir = path.resolve(__dirname, '..', '..', 'baidu/photo');
-const srcDir = path.resolve(__dirname, '..', 'photo/static/photo');
+const srcDir = path.resolve(__dirname, '..', '..', 'baidu/photo');
+const distDir = path.resolve(__dirname, '..', 'photo/static/photo');
 
 
 function sharpImage(srcName, destName) {

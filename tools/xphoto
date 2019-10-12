@@ -4,8 +4,16 @@ const fs = require('fs-extra');
 const path = require('path');
 const moment = require('moment');
 const args = process.argv.slice(2);
-const srcDir = `/Users/whxx/test/data/Camera/img/${args[0]}`;
-const distDir = '/Users/whxx/test/data/Camera/img/dist';
+const root = `/Users/whxx/test/data/Camera`;
+
+if (!args[1] || args[0] === '-h' || args[0] === '--help') {
+    console.log('xphoto srcDir distDir');
+    console.log(`       root=${root}`);
+    process.exit(0);
+}
+
+const srcDir = `${root}/${args[0]}`;
+const distDir = `${root}/${args[1]}`;
 
 
 fs.emptyDirSync(distDir);
